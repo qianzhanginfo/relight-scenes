@@ -31,15 +31,18 @@ propagation_window = 3;
 
 
 %% load the input data
+% load 3D points
+points = load_3d_points(folder_name, index_source, index_target);
+disp(length(points))
+
 % project 3D points to 2D image
-S = load_data(folder_name, index_source, image_width);
-T = load_data(folder_name, index_target, image_width);
+S = get_im_corres(folder_name, points, index_source, image_width);
+T = get_im_corres(folder_name, points, index_target, image_width);
 imwrite(S.im, 'input_source.png');
 imwrite(T.im, 'input_target.png');
 
 % show overlay of correspondences on the images
 imshow_corres(S, T);
-disp(length(S.corres))
 
 %% transfer lighting via local color transforms
 % compute weights for propagation based on color differences

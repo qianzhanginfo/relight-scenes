@@ -1,11 +1,8 @@
-function img_object = load_data(folder_name, image_index, image_width)
+function img_object = get_im_corres(folder_name, points, image_index, image_width)
 
-%% load the input data
-% 3D points visible from both images in the reconstructed point cloud
-load(fullfile(folder_name,'demo_points.mat'),'points');
-
+%% load image and camera params
 % image
-image = imread(fullfile(folder_name, ['00000' image_index '.jpg']));
+image = imread(fullfile(folder_name, 'visualize', ['00000' image_index '.jpg']));
 image_scale = image_width/max(size(image));
 image = imresize(image, image_scale);
 image = im2double(image);
@@ -13,7 +10,7 @@ image = im2double(image);
 % estimated camera matrix
 projection_matrix = zeros(3,4);
 
-txt = fopen(fullfile(folder_name, ['00000' image_index '.txt']));
+txt = fopen(fullfile(folder_name, 'txt', ['00000' image_index '.txt']));
 fgetl(txt); % file header "CONTOUR"
 for k = 1:3
     l = deblank(fgetl(txt));
